@@ -1,0 +1,22 @@
+{
+  "name": "aha-math",
+  "displayName": "Aha Math",
+  "version": "0.1.0",
+  "description": "数学/物理讲解 skill：先做教学诊断与误解点拆解，写 storyboard，再用 Manim 渲染“看得懂为什么”的讲解视频与可选交互网页",
+  "author": {
+    "name": "fieai"
+  },
+  "homepage": "https://github.com/fieai/aha-math-skill",
+  "repository": "https://github.com/fieai/aha-math-skill",
+  "license": "MIT",
+  "keywords": [
+    "math",
+    "education",
+    "video",
+    "manim",
+    "storyboard",
+    "teaching",
+    "agent-skill",
+    "claude-skill"
+  ]
+}

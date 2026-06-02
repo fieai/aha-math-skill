@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+node_modules/
+__pycache__/
+*.pyc
+
+# Manim 本地渲染缓存与虚拟环境（如果在仓库内试跑）
+media/
+aha-math-venv/
