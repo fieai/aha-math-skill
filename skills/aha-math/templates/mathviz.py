@@ -17,11 +17,31 @@
             self.caption("一句旁白")            # 带底衬、已上移的字幕
             self.clear_screen()
 """
+import json
+import os
 import sys
 import numpy as np
 from manim import *
 
 ZH = "PingFang SC"
+
+# ---- 可选旁白配音：若同目录有 narration.json（由 scripts/tts.py 生成）则自动配音 ----
+# 没有就保持纯字幕；这样「有 MIMO_API_KEY 就有声、没有就无声」对 scene 完全透明。
+_NARRATION = {}
+
+
+def _load_narration():
+    global _NARRATION
+    path = os.environ.get("NARRATION_MANIFEST", "narration.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        _NARRATION = {it["text"]: it for it in data.get("items", [])}
+    except Exception:
+        _NARRATION = {}
+
+
+_load_narration()
 
 # ---- 丰富配色（十六进制，比默认命名色更通透）----
 C_BG = "#0b1020"        # 深蓝底（替代纯黑，立刻不“干”）
@@ -153,8 +173,13 @@ class SafeScene(Scene):
         """带底衬、已上移的字幕（lower-third 风格）。
 
         wait="auto"（默认）按文字长度自动推停留时间，落实『字幕至少能读完 ×1.5』，
-        让没有视觉能力的模型也不会给关键镜头配过短停留；也可传具体秒数覆盖。"""
-        if wait == "auto" or wait is None:
+        让没有视觉能力的模型也不会给关键镜头配过短停留；也可传具体秒数覆盖。
+
+        若同目录有 narration.json 且含本句配音（scripts/tts.py 生成），则按音频时长停留并自动配音。"""
+        narr = _NARRATION.get(text)
+        if narr:
+            wait = max(float(narr.get("duration", 2.0)) + 0.35, 1.4)
+        elif wait == "auto" or wait is None:
             # 中文约 4 字/秒 ×1.5 余量 ≈ 0.375 秒/字，夹在 [1.6, 6.0] 秒
             wait = min(6.0, max(1.6, len(text) * 0.375))
         txt = Text(text, font=self.ZH).scale(scale)
@@ -172,6 +197,12 @@ class SafeScene(Scene):
         else:
             self.play(FadeOut(self._cap, shift=UP * 0.2), FadeIn(grp, shift=UP * 0.25))
         self._cap = grp
+        if narr:
+            # 字幕出现后再起声，画面与旁白对齐
+            try:
+                self.add_sound(narr["audio"])
+            except Exception as e:
+                print(f"[mathviz] 配音加载失败（{narr.get('audio')}）: {e}", file=sys.stderr)
         self.wait(wait)
         return grp
 

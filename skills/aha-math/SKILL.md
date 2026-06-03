@@ -195,6 +195,19 @@ manim -qm scene.py SceneName
 cp "$(find media/videos -type f -name 'SceneName.mp4' -print0 | xargs -0 ls -t | head -n1)" SceneName.mp4
 ```
 
+#### 可选：给视频配旁白（TTS）
+
+完全可选，缺省不影响出片。**渲染前**先跑一次：
+
+```bash
+python3 scripts/tts.py <主题>/scene.py
+```
+
+- 检测到 `MIMO_API_KEY`（环境变量或项目根 `.env`，模板见 `templates/.env.example`）→ 给每句 `caption(...)` 合成 wav 并写 `<主题>/narration.json`，**之后渲染自动带配音**（`mathviz` 的 `caption()` 会读清单、按音频时长停留并 `add_sound`）。
+- 没有 key → 打印提示、退出 0，视频照常**无声**渲染。
+
+`check_env.py` 会在体检时报告 TTS 是否就绪。**先 tts 再渲染**，否则配音不会进片。
+
 ### D2. 制作交互网页
 
 只有用户要求网页或未指定形式时才做。复制 `templates/interactive_template.html` 到 `<主题>/index.html`，并运行：
@@ -262,3 +275,4 @@ python3 scripts/check_web.py <主题>/index.html
 - `scripts/check_text.py`：字体字形检查
 - `scripts/check_web.py`：网页检查
 - `scripts/setup_manim.sh` / `scripts/check_env.py` / `scripts/render.sh`：环境与渲染
+- `scripts/tts.py` + `templates/.env.example`：可选旁白配音（MiMo-V2.5-TTS，按 `.env` 里的 MIMO_API_KEY 自动开关）

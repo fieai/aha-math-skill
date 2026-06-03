@@ -10,3 +10,8 @@ __pycache__/
 # Manim 本地渲染缓存与虚拟环境（如果在仓库内试跑）
 media/
 aha-math-venv/
+
+# 可选 TTS 的密钥与生成的配音（勿入仓）
+.env
+narration/
+narration.json

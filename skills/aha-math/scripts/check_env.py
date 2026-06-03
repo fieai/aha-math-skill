@@ -30,6 +30,23 @@ def line(tag_color, tag, msg):
     print(f"{tag_color}[{tag}]{RST} {msg}")
 
 
+def load_env_files(*extra_dirs):
+    """把 cwd（及可选目录）下的 .env 读进 os.environ；真实环境变量优先，不覆盖。"""
+    from pathlib import Path
+    paths = [Path(".env")] + [Path(d) / ".env" for d in extra_dirs]
+    for p in paths:
+        try:
+            if p.is_file():
+                for ln in p.read_text(encoding="utf-8").splitlines():
+                    ln = ln.strip()
+                    if not ln or ln.startswith("#") or "=" not in ln:
+                        continue
+                    k, v = ln.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+        except Exception:
+            pass
+
+
 def main() -> int:
     core_ok = True
 
@@ -55,6 +72,15 @@ def main() -> int:
         line(GREEN, " ok ", "LaTeX 可用 → 可以使用 MathTex / Tex")
     else:
         line(YEL, "warn", "未找到 LaTeX（可选）→ 公式请用 Text + Unicode（见 manim-guide）")
+
+    # TTS 配音（可选）—— 运行时检测 .env / 环境变量里的 MIMO_API_KEY
+    load_env_files()
+    if os.environ.get("MIMO_API_KEY", "").strip():
+        voice = os.environ.get("MIMO_TTS_VOICE", "茉莉")
+        line(GREEN, " ok ", f"TTS: 已检测到 MIMO_API_KEY → 渲染时自动配音（音色 {voice}）")
+    else:
+        line(YEL, "warn", "TTS: 未配置 MIMO_API_KEY（可选）→ 视频将无声")
+        line(YEL, "fix ", "如需配音：项目根建 .env 写 MIMO_API_KEY=你的key（见 templates/.env.example）")
 
     # 中文字体提示（仅 macOS 常见字体探测，非强制）
     print()
