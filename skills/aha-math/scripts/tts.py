@@ -150,6 +150,8 @@ def main() -> int:
             audio = synth(text, base, key, args.voice, args.style)
         except Exception as e:
             print(f"[tts][FAIL] 第 {i} 句合成失败：{e}")
+            if "CERTIFICATE" in str(e) or "SSL" in str(e):
+                print("[tts] 提示：SSL 证书问题 → pip install certifi（或用系统 python3 跑本脚本）。")
             print("[tts] 已中止；修正后重试，或不设 key 出无声视频。")
             return 1
         wav.write_bytes(audio)

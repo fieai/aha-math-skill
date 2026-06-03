@@ -54,14 +54,14 @@ if command -v uv >/dev/null 2>&1; then
   uv venv "$PROJ_ENV_DIR" >/dev/null 2>&1 || true
   # shellcheck disable=SC1091
   source "$PROJ_ENV_DIR/bin/activate"
-  uv pip install --upgrade manim fonttools
+  uv pip install --upgrade manim fonttools certifi
 else
   say "未检测到 uv，使用 python3 venv: $PROJ_ENV_DIR"
   python3 -m venv "$PROJ_ENV_DIR"
   # shellcheck disable=SC1091
   source "$PROJ_ENV_DIR/bin/activate"
   python -m pip install --upgrade pip >/dev/null
-  python -m pip install --upgrade manim fonttools
+  python -m pip install --upgrade manim fonttools certifi
 fi
 
 # 3) 校验 manim
