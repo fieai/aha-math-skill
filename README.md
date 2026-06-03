@@ -1,3 +1,6 @@
+> ⚠️ **本仓库已归档（read-only）。** aha-math 已迁入 monorepo **[fieai/lifekit](https://github.com/fieai/lifekit)**（`plugins/aha-math`）。
+> 安装：`/plugin marketplace add fieai/lifekit` → `/plugin install aha-math@lifekit`。后续更新只在 lifekit 进行。
+
 <div align="center">
 
 # aha-math
