@@ -16,7 +16,8 @@
     "spokenRule": "往前走多少、往后退多少，距离就拉开多少。",
     "mathTranslation": "差的变化 = 被减数增加量 + 减数减少量 = 20 + 15 = 35，新差 = 125 + 35 = 160。"
   },
-  "visualModel": "数轴上的距离（两个动点）",
+  "visualModel": "number-line",
+  "visualModelNote": "数轴上两个动点之间的距离 = 差",
   "scenes": [
     {
       "id": "scene_0",

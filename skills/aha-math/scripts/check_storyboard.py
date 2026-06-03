@@ -39,6 +39,8 @@ def ok(msg: str) -> None:
 # ---------- 抽象层级（低→高）----------
 
 ABSTRACTION_ORDER = {"concrete": 0, "child-language": 1, "spoken-rule": 2, "math": 3}
+VISUAL_MODELS = {"bar-part-whole", "bar-comparison", "area", "number-line", "coordinate",
+                 "balance", "venn", "dissection", "dynamic-point", "counting", "other"}
 LOW_AGE = {"小学低年级", "小学高年级"}
 STRICT_FAIL_AGE = {"小学低年级", "小学高年级"}
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "templates" / "storyboard.schema.json"
@@ -90,6 +92,9 @@ def _structural_errors(data: dict) -> list[str]:
     if not isinstance(scenes, list) or not scenes:
         errs.append("scenes 应为非空数组")
         scenes = []
+    vm = data.get("visualModel")
+    if vm is not None and vm not in VISUAL_MODELS:
+        errs.append(f"visualModel 非法: {vm}（见 references/visual-models.md / schema 枚举）")
     for i, sc in enumerate(scenes):
         where = f"scenes[{i}]"
         if not need(sc, ["id", "goal", "abstractionLevel", "necessity", "frame", "narration", "animation", "mustAvoid"], where):

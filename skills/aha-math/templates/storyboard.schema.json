@@ -35,7 +35,11 @@
         "mathTranslation": { "type": "string", "minLength": 1, "description": "把口头规则翻译回数学表达" }
       }
     },
-    "visualModel": { "type": "string", "description": "糖果 / 积木 / 数轴 / 距离 / 天平 / 面积 / 坐标系 / 小数字代入 等" },
+    "visualModel": {
+      "enum": ["bar-part-whole", "bar-comparison", "area", "number-line", "coordinate", "balance", "venn", "dissection", "dynamic-point", "counting", "other"],
+      "description": "数形结合视觉模型（见 references/visual-models.md，选错模型就会绕）：bar-part-whole=线段图·整体部分 / bar-comparison=线段图·比较 / area=面积 / number-line=数轴 / coordinate=坐标系 / balance=天平 / venn=集合韦恩 / dissection=剪拼重排 / dynamic-point=动点协变 / counting=实物计数 / other=其他"
+    },
+    "visualModelNote": { "type": "string", "description": "对所选模型的具体说明（自由文本），如『两条左对齐长条，差=露出的一截』" },
     "scenes": {
       "type": "array",
       "minItems": 1,

@@ -90,6 +90,7 @@ aha-math-skill/
 │       ├── SKILL.md                    主入口：硬规则 + 工作流 A→E
 │       ├── references/
 │       │   ├── pedagogy-and-storyboard.md  教学分镜方法
+│       │   ├── visual-models.md            数形结合视觉模型库（题型→选模型→画法→可见逻辑）
 │       │   ├── word-problem-patterns.md    应用题视觉模型与低龄解释模板
 │       │   ├── video-orchestration.md      镜头必要性、终态布局先行、校验规则
 │       │   ├── manim-guide.md              Manim API、布局、防重叠、无 LaTeX 写法
@@ -101,6 +102,7 @@ aha-math-skill/
 │       │   ├── storyboard.example.json      填好的强类型分镜正例（差变化题，具体先行）
 │       │   ├── scene_template.py           Manim 场景骨架
 │       │   ├── mathviz.py                  SafeScene 与布局检查
+│       │   ├── mathshapes.py               数形结合可复用组件（线段图/天平/数轴/面积）
 │       │   ├── interactive_template.html   交互网页模板
 │       │   └── example_pythagoras_proof.py 勾股定理证明示例
 │       └── scripts/
@@ -222,6 +224,7 @@ aha-math-skill/
 │       ├── SKILL.md                    main entry: hard rules + workflow A→E
 │       ├── references/
 │       │   ├── pedagogy-and-storyboard.md  storyboarding methodology
+│       │   ├── visual-models.md            number-shape model library (type→model→drawing→visible logic)
 │       │   ├── word-problem-patterns.md    visual models + young-audience templates
 │       │   ├── video-orchestration.md      shot necessity, final-layout-first, checks
 │       │   ├── manim-guide.md              Manim API, layout, anti-overlap, no-LaTeX
@@ -233,6 +236,7 @@ aha-math-skill/
 │       │   ├── storyboard.example.json      filled strongly-typed exemplar (diff problem, concrete-first)
 │       │   ├── scene_template.py           Manim scene skeleton
 │       │   ├── mathviz.py                  SafeScene + layout checks
+│       │   ├── mathshapes.py               reusable number-shape components (bar/balance/number-line/area)
 │       │   ├── interactive_template.html   interactive web template
 │       │   └── example_pythagoras_proof.py worked Pythagoras proof
 │       └── scripts/

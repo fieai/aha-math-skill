@@ -27,10 +27,12 @@ metadata:
 3. **先教学诊断，后写代码。** 任何小学题、应用题、概念题都必须先找出“最容易误解的一步”。
 4. **低龄受众禁止直接上抽象规则。** 顺序必须是：具体动作 → 儿童语言 → 口头规则 → 数学语言。
 5. **每个关键镜头必须回答“凭什么”。** 不能从“减数减少 15”直接跳到“差 +15”。
-6. **不要过度拆镜。** 连续两个镜头如果都在讲同一个关系，只保留一个“动作镜头”；例如“减法是一整条”和“两段拼回整条”应合并为“减数 + 差拼回被减数”。
-7. **渲染前必须有已确认的 storyboard。** 任何视频/网页都必须基于用户确认过的 storyboard；未经确认不得渲染。
-8. **不用 LaTeX 时禁用 `MathTex/Tex`。** 用 `Text(..., font="PingFang SC")` 和 Unicode。
-9. **交付前必须验证。** 字形检查、静帧/布局检查、MP4 存在且大小大于 0。
+6. **图形即过程。** 解题必须在图形上完成、由动画推出结论，文字只做标注与总结；**禁止纯文字解题、禁止先算出答案再补图**。先按题型从 `references/visual-models.md` 选定一个视觉模型（一题一模型，别堆多种比喻）。
+7. **动画必须有目的，先例后理。** 每个动作对应一步推理或一次强调，**禁止无意义位移/装饰动画**（3b1b 原则）；先给具体例子，再抽象成符号。
+8. **不要过度拆镜。** 连续两个镜头如果都在讲同一个关系，只保留一个“动作镜头”；例如“减法是一整条”和“两段拼回整条”应合并为“减数 + 差拼回被减数”。
+9. **渲染前必须有已确认的 storyboard。** 任何视频/网页都必须基于用户确认过的 storyboard；未经确认不得渲染。
+10. **不用 LaTeX 时禁用 `MathTex/Tex`。** 用 `Text(..., font="PingFang SC")` 和 Unicode。
+11. **交付前必须验证。** 字形检查、静帧/布局检查、MP4 存在且大小大于 0。
 
 ## 工作流
 
@@ -152,8 +154,8 @@ bash scripts/setup_manim.sh
 ### D1. 制作 Manim 视频
 
 1. 创建主题目录。
-2. 复制 `templates/mathviz.py` 到主题目录。
-3. 按 storyboard 写 `scene.py`。
+2. 复制 `templates/mathviz.py` 到主题目录；用到数形结合组件（线段图/天平/数轴/面积）时连 `templates/mathshapes.py` 一起复制。
+3. 按 storyboard 选定的 `visualModel` 从 `references/visual-models.md` 取画法，写 `scene.py`（优先用 `mathshapes` 的组件，画法规则已固化）。
 4. 每段内容先 `VGroup(...).arrange()`，再 `fit_content()`。
 5. 标题用 `title_bar()`，旁白用 `caption()`，切镜头用 `clear_screen()`。
 6. 关键逻辑必须由可见动作表达，不只靠旁白。
@@ -263,6 +265,7 @@ python3 scripts/check_web.py <主题>/index.html
 ## 资源索引
 
 - `references/pedagogy-and-storyboard.md`：教学分镜方法
+- `references/visual-models.md`：数形结合视觉模型库（题型→选模型→画法→可见逻辑→Manim 落法）
 - `references/word-problem-patterns.md`：应用题视觉模型与低龄解释模板
 - `references/video-orchestration.md`：借鉴 HyperFrames 与 fogsight-v5 的视频编排、镜头必要性、布局和校验规则
 - `references/manim-guide.md`：Manim API、布局、防重叠、无 LaTeX 写法
@@ -273,6 +276,7 @@ python3 scripts/check_web.py <主题>/index.html
 - `templates/storyboard.example.json`：填好的强类型分镜正例（差变化题，具体先行）
 - `templates/scene_template.py`：Manim 场景骨架
 - `templates/mathviz.py`：SafeScene 与布局检查
+- `templates/mathshapes.py`：数形结合可复用组件（线段图/天平/数轴/面积，画法规则已固化）
 - `scripts/check_storyboard.py`：教学分镜检查（强类型 json + 旧版 md；判定循序渐进、不跳步骤）
 - `scripts/check_text.py`：字体字形检查
 - `scripts/check_web.py`：网页检查
