@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/fieai/aha-math-skill/blob/master/skills/aha-math/templates/storyboard.schema.json",
+  "title": "aha-math storyboard",
+  "description": "数学讲解分镜的强类型契约。把教学诊断、抽象层级、镜头必要性写成结构，让 check_storyboard.py 能确定性地判定『循序渐进、不跳步骤』，而不是靠关键词猜。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "diagnosis", "scenes", "passCriteria"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic", "form", "audience", "learningGoal", "coreSentence"],
+      "properties": {
+        "topic": { "type": "string", "minLength": 1, "description": "用户原题/原概念，标题必须对准它而不是中间过程" },
+        "form": { "enum": ["video", "web", "both", "storyboard-only"] },
+        "audience": { "enum": ["小学低年级", "小学高年级", "初中", "高中", "大学", "科普"] },
+        "durationTargetSec": { "type": "number", "minimum": 5, "description": "目标时长（秒），可选；时间轴由代码/模板控制，LLM 不要堆精确时长" },
+        "learningGoal": { "type": "string", "minLength": 1, "description": "看完能回答的 1 个问题" },
+        "coreSentence": { "type": "string", "minLength": 1, "description": "观众最后应记住的一句话" },
+        "noLatex": { "type": "boolean", "description": "环境无 LaTeX 时为 true，公式一律用 Text + Unicode" }
+      }
+    },
+    "diagnosis": {
+      "type": "object",
+      "description": "教学诊断与四层降维。写分镜前必须先填这一层。",
+      "additionalProperties": false,
+      "required": ["problemStep", "misconception", "concreteAction", "childLanguage", "spokenRule", "mathTranslation"],
+      "properties": {
+        "problemStep": { "type": "string", "minLength": 1, "description": "原题最核心的推理步骤" },
+        "misconception": { "type": "string", "minLength": 1, "description": "观众最可能卡住或想反的地方" },
+        "concreteAction": { "type": "string", "minLength": 1, "description": "用看得见的动作（糖果/距离/天平/小数字代入）解释" },
+        "childLanguage": { "type": "string", "minLength": 1, "description": "不用术语时怎么说" },
+        "spokenRule": { "type": "string", "minLength": 1, "description": "一句顺口的口头规则" },
+        "mathTranslation": { "type": "string", "minLength": 1, "description": "把口头规则翻译回数学表达" }
+      }
+    },
+    "visualModel": { "type": "string", "description": "糖果 / 积木 / 数轴 / 距离 / 天平 / 面积 / 坐标系 / 小数字代入 等" },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/scene" }
+    },
+    "passCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  },
+  "definitions": {
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "goal", "abstractionLevel", "necessity", "frame", "narration", "animation", "mustAvoid"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^scene_[0-9]+$" },
+        "goal": { "type": "string", "minLength": 1, "description": "这一镜头解决哪个新问题" },
+        "stage": {
+          "enum": ["hook", "intuition", "formalize", "derive", "recap"],
+          "description": "经典讲解结构：钩子/直观/形式化/推导/收尾"
+        },
+        "abstractionLevel": {
+          "enum": ["concrete", "child-language", "spoken-rule", "math"],
+          "description": "抽象层级（低→高）。校验器据此判定『具体先于抽象、不跳步骤』：concrete=看得见的动作/实物/小数字；child-language=儿童语言；spoken-rule=口头规则；math=数学语言/符号。"
+        },
+        "relation": { "type": "string", "description": "本镜讲的『关系』标签，如『减数+差=被减数』。相邻镜头若同 relation，校验器会提示合并。" },
+        "necessity": {
+          "enum": ["key", "support", "mergeable"],
+          "description": "key=关键镜头不能删；support=辅助；mergeable=可与他镜合并"
+        },
+        "mergeableWith": { "type": ["string", "null"], "description": "若可合并，写目标 scene id；否则 null" },
+        "frame": { "type": "string", "minLength": 1, "description": "画面里有什么：对象、位置、颜色" },
+        "narration": { "type": "string", "minLength": 1, "description": "一句孩子能听懂的话；低龄题宜短" },
+        "animation": { "type": "string", "minLength": 1, "description": "什么对象怎么动；每次动画应对应一步『因为…所以…』" },
+        "mustAvoid": { "type": "string", "minLength": 1, "description": "这一镜不能跳过/不能引入的逻辑跳跃" }
+      }
+    }
+  }
+}

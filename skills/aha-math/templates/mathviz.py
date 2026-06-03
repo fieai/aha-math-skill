@@ -149,8 +149,14 @@ class SafeScene(Scene):
             self.play(Transform(self._title, grp))
         return self._title
 
-    def caption(self, text, scale=0.5, wait=2.0, color=None):
-        """带底衬、已上移的字幕（lower-third 风格）。"""
+    def caption(self, text, scale=0.5, wait="auto", color=None):
+        """带底衬、已上移的字幕（lower-third 风格）。
+
+        wait="auto"（默认）按文字长度自动推停留时间，落实『字幕至少能读完 ×1.5』，
+        让没有视觉能力的模型也不会给关键镜头配过短停留；也可传具体秒数覆盖。"""
+        if wait == "auto" or wait is None:
+            # 中文约 4 字/秒 ×1.5 余量 ≈ 0.375 秒/字，夹在 [1.6, 6.0] 秒
+            wait = min(6.0, max(1.6, len(text) * 0.375))
         txt = Text(text, font=self.ZH).scale(scale)
         if txt.width > CONTENT_MAX_W - 0.8:
             txt.scale_to_fit_width(CONTENT_MAX_W - 0.8)

@@ -18,6 +18,18 @@
 
 完整正例见 `templates/example_pythagoras_proof.py`（重排/面积法证明，已验证可渲染）。**做证明类视频前，先读它。**
 
+### 同一道题，两种讲法（顺序决定成败）
+
+证明类容易看出对错，应用题的「跳步骤」更隐蔽。看同一道差变化题的两种镜头顺序：
+
+> **反例（抽象先行）**：`scene_1` 直接断言「差=被减数−减数，被减数变大差就变大」→ `scene_2` 才打比方 → `scene_3` 才出现 200−75 的具体数字。
+> 观众在第一镜就被要求**先接受规律**，画面没把它「做」出来——这是典型的抽象先行、具体殿后。（这正是 fogsight-v5 `examples/diff-problem.json` 的顺序。）
+
+> **正例（具体先行）**：先把差画成数轴上两人的**距离** → 前面的人多走 20、后面的人后退 15，**距离被动作拉开** → 收成口头规则「往前走多少+往后退多少，距离就拉开多少」→ 最后才翻译成 `125+35=160`。
+> 抽象层级严格 `concrete → concrete → spoken-rule → math`，先做、后说、最后符号化。完整正例见 `templates/storyboard.example.json`，可直接 `python3 scripts/check_storyboard.py templates/storyboard.example.json` 验证它通过。
+
+经验：**LLM 默认会写成反例**（先给定义、再举例子），因为定义先行在文本上更「整齐」。强类型分镜的 `abstractionLevel` 字段就是用来在渲染前**机械拦住**这种顺序的——见 `templates/storyboard.schema.json` 与 §3。
+
 ### 验收测试（动手前后都要自问）
 
 - **遮住旁白测试**：把字幕/旁白全删掉，只看画面，观众还能复述出推理的关键步骤吗？能 → 合格；不能 → 画面没有承载论证，重新设计。
@@ -67,7 +79,12 @@
 2. **旁白/字幕**：这一镜要说的一句话。
 3. **动作**：用什么动画进入、如何切到下一镜（FadeOut 谁、Transform 成谁）。
 
-写法见 `templates/storyboard.md`，复制到工作区填。
+写法有两种，按需选：
+
+- **强类型 `storyboard.json`（推荐）**：按 `templates/storyboard.schema.json` 填，把教学诊断、`abstractionLevel`、`necessity`、`relation` 写成结构。它能被 `check_storyboard.py` **确定性校验**「具体先于抽象、不跳步骤、相邻镜头不重复」——比散文可靠得多。范例见 `templates/storyboard.example.json`。
+- **散文 `storyboard.md`（速写/给人看）**：结构见 `templates/storyboard.md`，复制到工作区填；`check_storyboard.py` 也支持它，但只能做启发式检查。
+
+两种都跑 `python3 scripts/check_storyboard.py <文件>`，通过后再渲染。
 
 **镜头粒度建议**：一个镜头 = 一个完整小意思，时长 3–10s。整片 6–12 个镜头较合适。
 

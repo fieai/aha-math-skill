@@ -70,7 +70,7 @@ metadata:
 
 ### B. 写 storyboard
 
-复制 `templates/storyboard.md`，或按同等结构写入主题目录。Storyboard 必须包含：
+**优先写强类型 `storyboard.json`**（按 `templates/storyboard.schema.json`），它能被校验器确定性地拦住"抽象先于具体""跳步骤""相邻镜头重复"。范例见 `templates/storyboard.example.json`。需要给人快速看时，也可用散文版 `templates/storyboard.md`。两种都必须包含：
 
 - 学习目标
 - 受众与语言难度
@@ -78,14 +78,17 @@ metadata:
 - 具体动作解释
 - 儿童语言/口头规则/数学语言三层翻译
 - 每镜头：目标、画面、旁白、动画、必须避免的跳跃
+- 每镜头抽象层级 `abstractionLevel`：concrete → child-language → spoken-rule → math（JSON 版必填，用于顺序校验）
 - 镜头必要性：这一镜头是否引入了新信息；能否和前后镜头合并
 - 通过标准
 
-低龄题必须运行：
+**所有 storyboard（json 或 md）渲染前必须运行：**
 
 ```bash
-python3 scripts/check_storyboard.py <主题>/storyboard.md
+python3 scripts/check_storyboard.py <主题>/storyboard.json
 ```
+
+校验器会强制：math 镜头不得早于任何 concrete 镜头、不得从 concrete 直接跳到 math、相邻镜头不得讲同一 relation、低龄旁白不过长。低龄题尤其不能跳过这一步。
 
 如果用户说“通过了再做视频”，到这里停止。
 
@@ -211,10 +214,12 @@ python3 scripts/check_web.py <主题>/index.html
 - `references/manim-guide.md`：Manim API、布局、防重叠、无 LaTeX 写法
 - `references/manim-cookbook.md`：可复用 Manim 片段
 - `references/interactive-web-guide.md`：交互网页
-- `templates/storyboard.md`：结构化分镜模板
+- `templates/storyboard.md`：结构化分镜模板（散文版）
+- `templates/storyboard.schema.json`：强类型分镜契约（JSON Schema，含 abstractionLevel 顺序约束）
+- `templates/storyboard.example.json`：填好的强类型分镜正例（差变化题，具体先行）
 - `templates/scene_template.py`：Manim 场景骨架
 - `templates/mathviz.py`：SafeScene 与布局检查
-- `scripts/check_storyboard.py`：教学分镜检查
+- `scripts/check_storyboard.py`：教学分镜检查（强类型 json + 旧版 md；判定循序渐进、不跳步骤）
 - `scripts/check_text.py`：字体字形检查
 - `scripts/check_web.py`：网页检查
 - `scripts/setup_manim.sh` / `scripts/check_env.py` / `scripts/render.sh`：环境与渲染

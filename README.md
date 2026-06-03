@@ -96,7 +96,9 @@ aha-math-skill/
 │       │   ├── manim-cookbook.md           可复用 Manim 片段
 │       │   └── interactive-web-guide.md    交互网页
 │       ├── templates/
-│       │   ├── storyboard.md               结构化分镜模板
+│       │   ├── storyboard.md               结构化分镜模板（散文版）
+│       │   ├── storyboard.schema.json      强类型分镜契约（abstractionLevel 顺序约束）
+│       │   ├── storyboard.example.json      填好的强类型分镜正例（差变化题，具体先行）
 │       │   ├── scene_template.py           Manim 场景骨架
 │       │   ├── mathviz.py                  SafeScene 与布局检查
 │       │   ├── interactive_template.html   交互网页模板
@@ -104,7 +106,7 @@ aha-math-skill/
 │       └── scripts/
 │           ├── setup_manim.sh / check_env.py   环境安装与探测
 │           ├── render.sh                        渲染（静帧 / 草稿 / 成片）
-│           ├── check_storyboard.py              教学分镜检查
+│           ├── check_storyboard.py              分镜检查（强类型 json + md，判定不跳步骤）
 │           ├── check_text.py                    字体字形检查
 │           └── check_web.py                     交互网页检查
 ├── LICENSE                             MIT
@@ -226,7 +228,9 @@ aha-math-skill/
 │       │   ├── manim-cookbook.md           reusable Manim snippets
 │       │   └── interactive-web-guide.md    interactive web
 │       ├── templates/
-│       │   ├── storyboard.md               structured storyboard template
+│       │   ├── storyboard.md               structured storyboard template (prose)
+│       │   ├── storyboard.schema.json      strongly-typed storyboard contract (abstractionLevel ordering)
+│       │   ├── storyboard.example.json      filled strongly-typed exemplar (diff problem, concrete-first)
 │       │   ├── scene_template.py           Manim scene skeleton
 │       │   ├── mathviz.py                  SafeScene + layout checks
 │       │   ├── interactive_template.html   interactive web template
@@ -234,7 +238,7 @@ aha-math-skill/
 │       └── scripts/
 │           ├── setup_manim.sh / check_env.py   env install & probe
 │           ├── render.sh                        render (still / draft / final)
-│           ├── check_storyboard.py              teaching storyboard check
+│           ├── check_storyboard.py              storyboard check (typed json + md; enforces no step-skipping)
 │           ├── check_text.py                    glyph/font check
 │           └── check_web.py                     interactive web check
 ├── LICENSE                             MIT

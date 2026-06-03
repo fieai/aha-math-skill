@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "topic": "两个数的差是125，被减数增加20、减数减少15后，差变成多少？",
+    "form": "video",
+    "audience": "小学低年级",
+    "durationTargetSec": 75,
+    "learningGoal": "看完能说出：差的变化只由『增减量』决定，新差 = 125 + 35 = 160。",
+    "coreSentence": "前面的人多走、后面的人后退，距离就拉开了。",
+    "noLatex": true
+  },
+  "diagnosis": {
+    "problemStep": "被减数增加20、减数减少15，两次变化都让差变大，差的总变化 = 20 + 15 = 35。",
+    "misconception": "以为要先求出原来的两个数，或以为减数『减少15』会让差也减少。",
+    "concreteAction": "把差画成数轴上两人之间的距离：前面的人往前走20步，后面的人往后退15步，距离就被拉开 20+15=35 步。",
+    "childLanguage": "一个往前、一个往后，他们中间的空隙就变大了。",
+    "spokenRule": "往前走多少、往后退多少，距离就拉开多少。",
+    "mathTranslation": "差的变化 = 被减数增加量 + 减数减少量 = 20 + 15 = 35，新差 = 125 + 35 = 160。"
+  },
+  "visualModel": "数轴上的距离（两个动点）",
+  "scenes": [
+    {
+      "id": "scene_0",
+      "stage": "hook",
+      "abstractionLevel": "concrete",
+      "relation": "差=两人之间的距离",
+      "necessity": "key",
+      "mergeableWith": null,
+      "goal": "把抽象的『差』落成一个看得见的距离，并抛出问题",
+      "frame": "数轴上两个小人，左边在 75、右边在 200，中间用一条标着『125』的横线连起来",
+      "narration": "两人相隔125。如果他们都动一下，距离会变多少？",
+      "animation": "两个小人 FadeIn，中间距离线 Create，125 数字 pop",
+      "mustAvoid": "不要一上来就写『差=被减数−减数』，先让差变成看得见的距离"
+    },
+    {
+      "id": "scene_1",
+      "stage": "intuition",
+      "abstractionLevel": "concrete",
+      "relation": "前进+后退→距离拉开",
+      "necessity": "key",
+      "mergeableWith": null,
+      "goal": "用可见动作把『两次变化同向拉大距离』做出来",
+      "frame": "右边小人向右移20步（被减数+20），左边小人向左移15步（减数−15），距离线随之变长",
+      "narration": "前面的人多走20步，后面的人后退15步。",
+      "animation": "右点沿数轴 shift +20、左点 shift −15，距离线同步拉长并高亮新增的两段",
+      "mustAvoid": "不要让两个动作同时发生看不清；先走前面的人，再退后面的人"
+    },
+    {
+      "id": "scene_2",
+      "stage": "formalize",
+      "abstractionLevel": "spoken-rule",
+      "relation": "拉开量=前进量+后退量",
+      "necessity": "key",
+      "mergeableWith": null,
+      "goal": "把刚才的动作收成一句口头规则",
+      "frame": "在拉长的两段上分别标 20 和 15，下方浮出一句话『往前走多少+往后退多少=距离拉开多少』",
+      "narration": "往前走多少、往后退多少，距离就拉开多少：20加15。",
+      "animation": "两段长度 Indicate，规则句 Write，20+15 高亮",
+      "mustAvoid": "不要直接说『差增加35』，先让孩子从动作里读出 20+15"
+    },
+    {
+      "id": "scene_3",
+      "stage": "derive",
+      "abstractionLevel": "math",
+      "relation": "新差=原差+变化量",
+      "necessity": "key",
+      "mergeableWith": null,
+      "goal": "把口头规则翻译回数学，得出结论，且不必知道原来的两个数",
+      "frame": "三行算式：变化量 20+15=35；新差 125+35=160；旁注『不用知道原来的两个数』",
+      "narration": "所以差多了35，新的差就是125加35，等于160。",
+      "animation": "由 scene_2 的『20+15』Transform 成『35』，再逐行写出 125+35=160，结论加框",
+      "mustAvoid": "不要去求原来的被减数和减数，强调只看变化量"
+    }
+  ],
+  "passCriteria": [
+    "遮住旁白只看画面，也能看出距离被两次移动拉开了。",
+    "最容易误解的一步（减少15也让差变大）有具体动作解释。",
+    "没有直接从『减数减少15』跳到『差增加15』。",
+    "标题对准原题（求新的差），而不是中间过程。",
+    "每个镜头都有新信息；没有两个镜头讲同一关系。",
+    "口头规则能被一句儿童语言复述。",
+    "最后回到数学表达：125 + 35 = 160。"
+  ]
+}

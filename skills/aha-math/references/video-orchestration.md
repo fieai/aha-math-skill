@@ -120,13 +120,17 @@ arrange / next_to / fit_content
 
 ## 5. LLM 只产教学 draft，确定性部分交给代码
 
-借鉴 fogsight-v5：
+借鉴 fogsight-v5——但只借**工程纪律**，不借它的**教学顺序**：
 
 - LLM 负责：受众判断、误解点、具体动作、旁白、镜头目标。
 - 模板/代码负责：场景顺序、时长、布局检查、字体检查、渲染验证。
 - 不要让 LLM 随意决定大量精确时间轴；用固定节奏即可。
 
-推荐 draft 结构：
+> ⚠️ **fogsight 的教学顺序是反面教材。** 它的模板（如 `long-concept`）把场景数写死、validator 强制不可增删合并，且顺序是「定义先行 → 类比 → 例子」——抽象殿后。`diff-problem.json` 的 `scene_1` 直接断言规律就是这个问题。我们要的是相反顺序：**具体动作先行**，见 `references/pedagogy-and-storyboard.md` §0「同一道题，两种讲法」。
+
+**强类型分镜（落实本节）：** 用 `templates/storyboard.schema.json` 把 draft 写成可校验结构，`scenes[].abstractionLevel`（concrete→child-language→spoken-rule→math）让 `check_storyboard.py` 能在渲染前确定性地拦住「抽象先于具体」和「concrete 直接跳 math」。范例见 `templates/storyboard.example.json`。
+
+推荐 draft 结构（与 schema 对齐的精简示意）：
 
 ```json
 {
@@ -137,10 +141,12 @@ arrange / next_to / fit_content
   "scenes": [
     {
       "goal": "说明减数 + 差 = 被减数",
+      "abstractionLevel": "concrete",
+      "relation": "减数+差=被减数",
+      "necessity": "key",
       "visualAction": "蓝色减数和绿色差拼回金色被减数",
       "childNarration": "拿走的那段加上剩下的那段，正好拼回原来的整条。",
-      "mathTranslation": "减数 + 差 = 被减数",
-      "necessity": "关键镜头，不能删"
+      "mathTranslation": "减数 + 差 = 被减数"
     }
   ]
 }
