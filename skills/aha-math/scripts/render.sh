@@ -57,7 +57,7 @@ case "$Q" in
   *) echo "未知质量 '$Q'（用 s/l/m/h/k）"; exit 2;;
 esac
 
-echo "==> 渲染 $SCENE （$KIND） @ $FILE_DIR ..."
+echo "==> 渲染 ${SCENE} （${KIND}） @ ${FILE_DIR} ..."
 # shellcheck disable=SC2086
 $MANIM $FLAGS "$FILE_BASE" "$SCENE"
 RC=$?
