@@ -57,6 +57,13 @@ case "$Q" in
   *) echo "未知质量 '$Q'（用 s/l/m/h/k）"; exit 2;;
 esac
 
+# 有配音清单(narration.json)时禁用缓存：否则上一次无声渲染缓存的动画会被 skip，
+# 而 Scene.add_sound 在 skip 时直接 return → 成片没有声音。
+if [ "$Q" != "s" ] && [ -f narration.json ]; then
+  FLAGS="$FLAGS --disable_caching"
+  echo "==> 检测到 narration.json，自动加 --disable_caching（保证配音进片）"
+fi
+
 echo "==> 渲染 ${SCENE} （${KIND}） @ ${FILE_DIR} ..."
 # shellcheck disable=SC2086
 $MANIM $FLAGS "$FILE_BASE" "$SCENE"

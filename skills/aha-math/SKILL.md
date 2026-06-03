@@ -208,6 +208,8 @@ python3 scripts/tts.py <主题>/scene.py
 
 `check_env.py` 会在体检时报告 TTS 是否就绪。**先 tts 再渲染**，否则配音不会进片。
 
+> ⚠️ 缓存坑：上一次无声渲染会缓存动画，重渲染时被 skip 的动画**不会触发 add_sound**（成片无声）。`render.sh` 检测到 `narration.json` 会自动加 `--disable_caching`；若直接用 `manim` 命令，务必自己加 `--disable_caching`。
+
 ### D2. 制作交互网页
 
 只有用户要求网页或未指定形式时才做。复制 `templates/interactive_template.html` 到 `<主题>/index.html`，并运行：
